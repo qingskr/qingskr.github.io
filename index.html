@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>水平垂直居中</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    p {
+      margin: 20px 0;
+    }
+    /* 公共代码 */
+    .wp {
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+    }
+
+    .box {
+      background: green;
+    }
+
+    .box.size{
+      width: 100px;
+      height: 100px;
+    }
+    /* 公共代码 */
+
+    /* 此处引用上面的公共代码 */
+    /* 此处引用上面的公共代码 */
+
+    /* 定位代码 */
+    .wp1 {
+      position: relative;
+    }
+    .box1 {
+      position: absolute;;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+    }
+    /* 此处引用上面的公共代码 */
+    /* 此处引用上面的公共代码 */
+
+    /* 定位代码 */
+    .wp2 {
+      position: relative;
+    }
+    .box2 {
+      position: absolute;;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+    /* 此处引用上面的公共代码 */
+    /* 此处引用上面的公共代码 */
+
+    /* 定位代码 */
+    .wp3 {
+      position: relative;
+    }
+    .box3 {
+      position: absolute;;
+      top: calc(50% - 50px);
+      left: calc(50% - 50px);
+    }
+    /* 此处引用上面的公共代码 */
+    /* 此处引用上面的公共代码 */
+
+    /* 定位代码 */
+    .wp4 {
+      position: relative;
+    }
+    .box4 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* 此处引用上面的公共代码 */
+    /* 此处引用上面的公共代码 */
+
+    /* 定位代码 */
+    .wp5 {
+      line-height: 300px;
+      text-align: center;
+      font-size: 0px;
+    }
+    .box5 {
+      font-size: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: initial;
+      text-align: left; /* 修正文字 */
+    }
+    .div2 {
+      writing-mode: vertical-lr;
+    }
+    /* 此处引用上面的公共代码 */
+    /* 此处引用上面的公共代码 */
+
+    /* 定位代码 */
+    .wp6 {
+      writing-mode: vertical-lr;
+      text-align: center;
+    }
+    .wp_inner {
+      writing-mode: horizontal-tb;
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+    }
+    .box6 {
+      display: inline-block;
+      margin: auto;
+      text-align: left;
+    }
+
+    .wp7 {
+      text-align: center;
+    }
+    .box7 {
+      display: inline-block;
+    }
+
+    .wp8 {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .box8 {
+      display: inline-block;
+    }
+
+    .wp9 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wp10 {
+      display: grid;
+    }
+    .box10 {
+      align-self: center;
+      justify-self: center;
+    }
+  </style>
+</head>
+<body>
+  <p>1. absolute + 负margin</p>
+  <div class="wp wp1">
+    <div class="box size box1">123123</div>
+  </div>
+  <p>2. absolute + margin auto</p>
+  <div class="wp wp2">
+    <div class="box size box2">123123</div>
+  </div>
+  <p>3. absolute + calc</p>
+  <div class="wp wp3">
+    <div class="box size box3">123123</div>
+  </div>
+  <p>4. absolute + transform</p>
+  <div class="wp wp4">
+      <div class="box box4">123123</div>
+  </div>
+  <p>5. line-height</p>
+  <div class="wp wp5">
+      <div class="box box5">123123</div>
+  </div>
+  <p>6. writing-mode</p>
+  <div class="div1">水平方向</div>
+  <div class="div2">垂直方向</div>
+  <div class="wp wp6">
+    <div class="wp_inner">
+      <div class="box box6">123123</div>
+    </div>
+  </div>
+  <p>7. table</p>
+  <table>
+      <tbody>
+          <tr>
+              <td class="wp wp7">
+                  <div class="box box7">123123</div>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+  <p>8. css-table</p>
+  <div class="wp wp8">
+      <div class="box box8">123123</div>
+  </div>
+  <p>9. flex</p>
+  <div class="wp wp9">
+      <div class="box">123123</div>
+  </div>
+  <p>10. grid</p>
+  <div class="wp wp10">
+      <div class="box box10">123123</div>
+  </div>
+
+
+  <script>
+    window.onload = function() {
+      const pMonitor = {};
+      pMonitor.getLoadTime = () => {
+        const [{ domComplete }] = performance.getEntriesByType('navigation');
+        return domComplete;
+      };
+      const SEC = 1000;
+      const TIMEOUT = 10 * SEC;
+      const setTime = (limit = TIMEOUT) => time => time >= limit;
+      const getLoadTime = ({ requestStart, responseEnd }) => responseEnd - requestStart;
+      const getName = ({ name }) => name;
+      pMonitor.getTimeoutRes = (limit = TIMEOUT) => {
+        const isTimeout = setTime(limit);
+        const resourceTimes = performance.getEntriesByType('resource');
+        return resourceTimes.filter(item => isTimeout(getLoadTime(item))).map(getName);
+      };
+
+      const mDomComplete = pMonitor.getLoadTime();
+      const timeoutRes = pMonitor.getTimeoutRes();
+      // console.log(mDomComplete, timeoutRes);
+
+      const promise = new Promise((resolve, reject) => {
+        console.log(1);
+        console.log(2);
+      });
+      promise.then(() => {
+        console.log(3);
+      });
+      console.log(4);
+    }
+  </script>
+</body>
+</html>
