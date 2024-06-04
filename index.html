@@ -11,7 +11,7 @@
   <div class="coming-soon">
     <div class="wrapper">
       <div class="coming-block">
-        <h1>即将到来</h1>
+        <h1 class="text">即将到来</h1>
         <p>会有一些非常棒的东西</p>
         <div class="countdown">
           <div class="countdown__days">
@@ -73,6 +73,25 @@
         countdownMinutes.innerHTML = minutes;
         countdownSeconds.innerHTML = seconds;
       }, 1000);
+
+      var str = '即将到来';
+      var i = 0;
+      function typing(){
+        var divTyping = document.querySelector('.coming-block .text');
+        if (i <= str.length) {
+          divTyping.innerHTML = str.slice(0, i++);
+          setTimeout(function () {
+            typing();
+          }, 300);
+        } else {
+          i = 0;
+          divTyping.innerHTML = str;
+          setTimeout(function () {
+            typing();
+          }, 3000);
+        }
+      }
+      typing();
     };
   </script>
 </body>
