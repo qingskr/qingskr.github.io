@@ -112,13 +112,19 @@ button:hover {
   -moz-transition: 0.5s ease;
 }
 
+#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 /*--/wrapper--*/
 .wrapper {
+  position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
+  padding: 0 15px;
+  z-index: 10;
 }
 
 @media (min-width: 576px) {
@@ -306,7 +312,7 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   grid-gap: 20px;
-  position: absolute;
+  position: fixed;
   bottom: 60px;
   width: 80%;
   margin: 0 auto;

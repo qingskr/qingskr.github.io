@@ -9,6 +9,7 @@
 </head>
 <body>
   <div class="coming-soon">
+    <canvas id="canvas"></canvas>
     <div class="wrapper">
       <div class="coming-block">
         <h1 class="text">
@@ -17,22 +18,22 @@
         <p>会有一些非常棒的东西</p>
         <div class="countdown">
           <div class="countdown__days">
-            <div class="number">0</div>
+            <div class="number">00</div>
             <span class="">Days</span>
           </div>
 
           <div class="countdown__hours">
-            <div class="number">0</div>
+            <div class="number">00</div>
             <span class="">Hours</span>
           </div>
 
           <div class="countdown__minutes">
-            <div class="number">0</div>
+            <div class="number">00</div>
             <span class="">Minutes</span>
           </div>
 
           <div class="countdown__seconds">
-            <div class="number">0</div>
+            <div class="number">00</div>
             <span class="">Seconds</span>
           </div>
         </div>
@@ -55,26 +56,51 @@
       </div>
     </div>
   </div>
+  <!-- <script src="https://unpkg.com/starback@2.1.1/dist/starback.global.js"></script> -->
+  <script src="./js/index.js"></script>
   <script>
     window.onload = function() {
-      const deadlineDate = new Date('2024/06/04 00:00:00').getTime();
-      const countdownDays = document.querySelector('.countdown__days .number');
-      const countdownHours = document.querySelector('.countdown__hours .number');
-      const countdownMinutes = document.querySelector('.countdown__minutes .number');
-      const countdownSeconds = document.querySelector('.countdown__seconds .number');
-      setInterval(() => {
-        const currentDate = new Date().getTime();
-        const distance = currentDate- deadlineDate;
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // const width = document.body.clientWidth;
+      // const height = document.body.clientHeight;
+      // const canvas = document.getElementById('canvas');
+      // const starBack = new Starback(canvas, {
+      //   width,
+      //   height,
+      //   type: 'dot',
+      //   quantity: 300,
+      //   direction: 35,
+      //   backgroundColor: 'transparent',
+      //   randomOpacity: true,
+      //   starColor: '#a1caff',
+      // });
 
-        countdownDays.innerHTML = days;
-        countdownHours.innerHTML = hours;
-        countdownMinutes.innerHTML = minutes;
-        countdownSeconds.innerHTML = seconds;
-      }, 1000);
+      // const deadlineDate = new Date('2024/06/04 00:00:00').getTime();
+      // const countdownDays = document.querySelector('.countdown__days .number');
+      // const countdownHours = document.querySelector('.countdown__hours .number');
+      // const countdownMinutes = document.querySelector('.countdown__minutes .number');
+      // const countdownSeconds = document.querySelector('.countdown__seconds .number');
+
+      // function handleFill(num) {
+      //   if (num < 10) {
+      //     return '0' + num;
+      //   } else {
+      //     return num;
+      //   }
+      // }
+
+      // setInterval(() => {
+      //   const currentDate = new Date().getTime();
+      //   const distance = currentDate- deadlineDate;
+      //   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      //   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      //   countdownDays.innerHTML = handleFill(days);
+      //   countdownHours.innerHTML = handleFill(hours);
+      //   countdownMinutes.innerHTML = handleFill(minutes);
+      //   countdownSeconds.innerHTML = handleFill(seconds);
+      // }, 1000);
 
       var str = '即将到来';
       var i = 0;
