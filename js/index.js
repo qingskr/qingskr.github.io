@@ -82,7 +82,7 @@ for (var i = 0; i < maxStars; i++) {
   new Star();
 }
 
-const startDate = new Date('2024/06/04 00:00:00').getTime();
+const startDate = new Date('2025/01/01 00:00:00').getTime();
 const countdownDays = document.querySelector('.countdown__days .number');
 const countdownHours = document.querySelector('.countdown__hours .number');
 const countdownMinutes = document.querySelector('.countdown__minutes .number');
@@ -111,7 +111,7 @@ function animation() {
   const currentDate = new Date().getTime();
   if (prevDate === 0 || currentDate - prevDate > 1000) {
     prevDate = currentDate;
-    const diff = currentDate - startDate;
+    const diff = startDate - currentDate;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
