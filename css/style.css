@@ -160,7 +160,7 @@ button:hover {
 }
 
 .coming-soon {
-  background: url(../img/bg1.jpg) no-repeat center;
+  background: url(../img/bg1.jpg) #485460 no-repeat center;
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
