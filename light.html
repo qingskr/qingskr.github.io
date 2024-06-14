@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>光</title>
+  <style>
+    body, html {
+      height: 2000px;
+      margin: 0;
+      padding: 0;
+    }
+    #myCanvas {
+      background: #f0f0f0;
+      margin: 0;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="myCanvas"></canvas>
+
+  <script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+    var scrollPos = 0;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+
+    // 模拟光的函数
+    function lightFunction(scrollPos) {
+      // 根据滚动位置计算光强度，这里是简单的线性关系
+      return scrollPos / document.body.clientHeight * 1.5;
+    }
+
+    // 绘制光的函数
+    function drawLight(lightIntensity) {
+      ctx.beginPath();
+      ctx.rect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(0, 0, 0, ' + lightIntensity + ')';
+      ctx.font = '30px Arial';
+      ctx.fillText('光', canvas.width / 2, canvas.height / 2);
+      ctx.fill();
+    }
+
+    // 滚动事件处理函数
+    window.onscroll = function() {
+      scrollPos = window.scrollY; // 获取当前滚动位置
+      var lightIntensity = lightFunction(scrollPos); // 计算光强度
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除画布
+      drawLight(lightIntensity); // 重绘画布
+    };
+
+    // 初始化时绘制光
+    drawLight(0);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>树</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html,body {
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f4fbfd;
+      background-image: url(./img/bg.png);
+      background-repeat: repeat-x;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <canvas id="tree"></canvas>
+  <script>
+    window.onload = function() {
+      var canvas = document.getElementById('tree');
+      var ctx = canvas.getContext('2d');
+      var width = canvas.width = window.innerWidth;
+      var height = canvas.height = window.innerHeight;
+      var branchColor = '#333'; // 树枝颜色
+      var fruitColor = 'red'; // 果实颜色
+      var grassColor = 'green'; // 草颜色
+      var grassNum = width / 2; // 草数量
+
+      // 坐标系移动
+      ctx.translate(width / 2, height / 6 * 5);
+      // Y轴反向
+      ctx.scale(1, -1);
+
+      function random(n) {
+        return Math.floor(Math.random() * n);
+      }
+      // 随机颜色
+      function randomColor() {
+        return `rgb(${random(255)}, ${random(255)}, ${random(255)})`
+      }
+
+      // 绘制树枝
+      // startDot: 起点坐标
+      // len: 树枝长度
+      // thick: 树枝粗细
+      // angle: 生长角度
+      var drawBranch = function(startDot, len, thick, angle) {
+        // 树枝太细，不再绘制
+        if(thick < 10 && Math.random() < 0.1) {return false;}
+        if(thick < 2) {
+          // 绘制果实
+          ctx.beginPath();
+          ctx.arc(startDot[0], startDot[1], 5, 0, 2 * Math.PI);
+          ctx.fillStyle = randomColor();
+          ctx.fill();
+          ctx.closePath();
+          return false;
+        }
+
+        ctx.beginPath(); // 开启线段绘制
+        ctx.moveTo(startDot[0], startDot[1]); // 设置起点
+
+        // 计算结束点
+        var endDot = [
+          startDot[0] + len * Math.cos(angle * Math.PI / 180),
+          startDot[1] + len * Math.sin(angle * Math.PI / 180)
+        ];
+
+        ctx.lineTo(endDot[0], endDot[1]); // 设置结束点
+        ctx.strokeStyle = branchColor; // 设置颜色
+        ctx.lineWidth = thick; // 设置线宽
+        ctx.lineCap = 'round'; // 设置末端以圆形结束
+        ctx.lineJoin = 'round';
+        ctx.stroke(); // 绘制路径
+        ctx.closePath();
+
+        var childLen = len * 0.8; // 子树枝是父树枝长度的 0.8
+        var childThick = thick * 0.75; // 子树枝是父树枝粗细的 0.75
+        var childAngle = Math.random() * 30; // 子树枝的生长角度范围 0°-30°
+        // 绘制左侧子树枝
+        drawBranch(endDot, childLen, childThick, angle + childAngle);
+        // 绘制右侧子树枝
+        drawBranch(endDot, childLen, childThick, angle - childAngle);
+      }
+
+      drawBranch([0, 0], 100, 20, 90);
+      drawBranch([-width / 2 / 3, 0], 100, 20, 90);
+      drawBranch([-width / 2 / 3 * 2, 0], 100, 20, 90);
+      drawBranch([width / 2 / 3, 0], 100, 20, 90);
+      drawBranch([width / 2 / 3 * 2, 0], 100, 20, 90);
+
+      // 绘制草
+      // startDot: 起点坐标
+      // len: 草长度
+      // thick: 草粗细
+      // angle: 生长角度
+      var drawGrass = function(startDot, len, thick, angle) {
+        ctx.beginPath(); // 开启线段绘制
+        ctx.moveTo(startDot[0], startDot[1]); // 设置起点
+        ctx.fillStyle = grassColor;
+        ctx.lineTo(startDot[0]+thick, startDot[1]); // 设置起点
+        // 计算结束点
+        var endDot = [
+          startDot[0] + len * Math.cos(angle * Math.PI / 180),
+          startDot[1] + len * Math.sin(angle * Math.PI / 180)
+        ];
+        ctx.lineTo(endDot[0], endDot[1]); // 设置结束点
+        ctx.fill(); // 绘制路径
+        ctx.closePath();
+      }
+
+      for(var i = 0; i < grassNum; i++) {
+        var startDot = [
+          Math.round(Math.random() * width - width / 2),
+          0
+        ];
+        var len = Math.round(Math.random() * 80);
+        var thick = Math.round(Math.random() * 20);
+        var angle = Math.round(Math.random() * 180);
+        drawGrass(startDot, len, thick, angle);
+      }
+
+      ctx.beginPath(); // 开启线段绘制
+      ctx.moveTo(-width / 2, -height / 4 / 2); // 设置起点
+      ctx.lineTo(width / 2, -height / 4 / 2); // 设置结束点
+      ctx.strokeStyle = '#333'; // 设置颜色
+      ctx.lineWidth = height / 4; // 设置线宽
+      ctx.stroke(); // 绘制路径
+      ctx.closePath();
+
+      // 绘制草
+      // startX,startY: 起点坐标
+      var drawCloud = function(startX, startY) {
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(startX - 40, startY + 20, startX - 40, startY + 70, startX + 60, startY + 70);
+        ctx.bezierCurveTo(startX + 80, startY + 100, startX + 150, startY + 100, startX + 170, startY + 70);
+        ctx.bezierCurveTo(startX + 250, startY + 70, startX + 250, startY + 40, startX + 220, startY + 20);
+        ctx.bezierCurveTo(startX + 260, startY - 40, startX + 200, startY - 50, startX + 170, startY - 30);
+        ctx.bezierCurveTo(startX + 150, startY - 75, startX + 80, startY - 60, startX + 80, startY - 30);
+        ctx.bezierCurveTo(startX + 30, startY - 75, startX - 20, startY - 40, startX, startY);
+        ctx.closePath();
+
+        // 添加一个径向渐变
+        var grd = ctx.createRadialGradient(startX - 40, startY + 20, 1, startX, startY, 260);
+        grd.addColorStop(0, "rgba(255,255,255, 0.8)");
+        grd.addColorStop(0.25, "rgba(255,255,255, 0.7)");
+        grd.addColorStop(0.5, "rgba(255,255,255, 0.9)");
+        grd.addColorStop(0.75, "rgba(255,255,255, 0.7)");
+        grd.addColorStop(1, '#fff');
+        ctx.fillStyle = grd;
+        ctx.fill();
+      }
+
+      drawCloud(-100, height / 4 * 3 - 50);
+      drawCloud(-width / 2 / 3 - 130, height / 4 * 3 - 50);
+      drawCloud(-width / 2 / 3 * 2 - 200, height / 4 * 3 - 50);
+      drawCloud(width / 2 / 3 - 60, height / 4 * 3 - 50);
+      drawCloud(width / 2 / 3 * 2-20, height / 4 * 3 - 50);
+
+      // 画太阳
+      ctx.beginPath();
+      ctx.arc(width / 2 - 50, height / 4 * 3 + 50, 100, 0, 2*Math.PI);
+      // 设置太阳的径向渐变色
+      // createRadialGradient(内圆x, 内圆y, 内圆半径, 外圆x, 外圆y, 外圆半径);
+      var sunColor = ctx.createRadialGradient(width / 2 - 50, height / 4 * 3 + 50, 0, width / 2 - 50, height / 4 * 3 + 50, 100);//  立体感
+      // addColorStop(0-1,颜色)：0-1之间的任意值，代表中间地带的百分比
+      sunColor.addColorStop(0, "#f00");
+      sunColor.addColorStop(1, "#f90");
+      ctx.fillStyle = sunColor;
+      ctx.fill();
+      ctx.closePath();
+    };
+  </script>
+</body>
+</html>

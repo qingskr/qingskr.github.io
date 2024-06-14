@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="aaa"></div>
+  <script type="module">
+    import Guifier from 'https://cdn.jsdelivr.net/npm/guifier@1.0.8/dist/Guifier.js';
+    const jsonString = `{
+      "name": "Alice",
+      "age": 25,
+      "isStudent": true,
+      "hobbies": ["reading", "painting"],
+      "address": {
+        "city": "London",
+        "zipcode": "SW1A 1AA",
+        "country": "United Kingdom"
+      }
+    }`;
+
+    const params = {
+        // To select a container element, you can use a selector
+        // such as a hashtag followed by the element's id (similar to CSS selectors).
+        elementSelector: '#aaa',
+        // Here, you need to specify the JSON string.
+        data: jsonString,
+        // You should specify the data type (in this case, JSON)
+        // as Guifier supports five data formats: 'json', 'yaml', 'xml', 'toml' and 'js' (javascipt object).
+        dataType: 'json'
+    }
+
+    const guifier = new Guifier(params);
+    console.log("🚀 ~ guifier:", guifier)
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      font-size: 40px;
+    }
+
+    .container-center {
+      width: 100%;
+      min-height: 500px;
+      /* background-color: #0f0; */
+      position: relative;
+    }
+
+    .container-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-top">请往下滚动</div>
+  <div class="container-center">
+    <canvas id="videoCanvas"></canvas>
+  </div>
+  <div class="container-bottom">请往上滚动</div>
+
+  <script>
+    window.onload = function() {
+      const containerCenter = document.querySelector(".container-center");
+      const canvas = document.getElementById("videoCanvas");
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width = window.innerWidth;
+      const height = canvas.height = window.innerHeight;
+      const minScroll = containerCenter.offsetTop;
+      const maxScroll = containerCenter.offsetTop + height;
+      const video = document.createElement('video');
+      video.src = './img/airpods-pro.webm'; // 替换为你的视频路径
+      video.crossOrigin = 'anonymous';
+      // video.autoplay = true;
+      containerCenter.style.height = maxScroll + 500 + "px";  // 增加高度，防止视频溢出
+
+      let frameTime = 0;  // 初始化视频帧时间
+
+      // 当页面滚动时，计算视频帧时间并更新画面
+      function onScroll() {
+        const scrollTop = window.scrollY;
+        if (scrollTop >= minScroll) {
+          canvas.style.position = "sticky";
+          canvas.style.top = 0;
+        } else {
+          canvas.style.position = "relative";
+        }
+        let speed = video.duration / height;  // 计算视频播放速度
+        let scrollHeight = scrollTop - containerCenter.offsetTop;  // 计算页面滚动高度
+        if(scrollHeight < 0) {
+        } else if (scrollHeight > 0 && scrollHeight < height) {
+          frameTime = scrollHeight * speed;
+        }
+        video.currentTime = frameTime;
+        drawFrame();
+      }
+
+      function drawFrame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      }
+
+      window.addEventListener('scroll', onScroll);
+
+      video.addEventListener('play', function() {
+        console.log("🚀 ~ video.addEventListener ~ play:")
+        setInterval(function() {
+          if (!video.paused && !video.ended) {
+            drawFrame();
+          }
+        }, 1000 / 30); // 30 FPS
+      });
+
+      const img = new Image();
+      img.src = './img/1.png';
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+    }
+  </script>
+</body>
+</html>
