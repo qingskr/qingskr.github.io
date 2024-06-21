@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .btn-box {
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      margin: 20px;
+    }
+    .btn-box button {
+      background: none;
+      border: none;
+      outline: none;
+      display: inline-block;
+      height: 100%;
+      padding: 0 20px;
+      line-height: 40px;
+      font-size: 15px;
+      color: #fff;
+      position: relative;
+      cursor: pointer;
+    }
+    .btn-box button:first-child:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 1px;
+      height: 20px;
+      margin-top: -10px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="btn-box">
+    <button>按钮1</button>
+    <button>按钮2</button>
+  </div>
+</body>
+</html>

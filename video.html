@@ -54,9 +54,11 @@
       const maxScroll = containerCenter.offsetTop + height;
       const video = document.createElement('video');
       video.src = './img/airpods-pro.webm'; // 替换为你的视频路径
-      video.crossOrigin = 'anonymous';
-      // video.autoplay = true;
-      containerCenter.style.height = maxScroll + 500 + "px";  // 增加高度，防止视频溢出
+      video.crossOrigin = 'anonymous'; // 允许跨域
+      video.autoplay = true; // 自动播放
+      video.defaultMuted = true; // 静音
+
+      containerCenter.style.height = maxScroll + 300 + "px";  // 增加高度，防止视频溢出
 
       let frameTime = 0;  // 初始化视频帧时间
 
@@ -87,7 +89,6 @@
       window.addEventListener('scroll', onScroll);
 
       video.addEventListener('play', function() {
-        console.log("🚀 ~ video.addEventListener ~ play:")
         setInterval(function() {
           if (!video.paused && !video.ended) {
             drawFrame();
@@ -95,11 +96,27 @@
         }, 1000 / 30); // 30 FPS
       });
 
-      const img = new Image();
-      img.src = './img/1.png';
-      img.onload = function() {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      };
+      video.addEventListener('loadedmetadata', function() {
+        console.log("🚀 ~ video.addEventListener ~ loadedmetadata:", video.currentTime)
+        setTimeout(function() {
+          console.log("🚀 ~ video.addEventListener ~ loadedmetadata:", 1)
+          video.pause();
+          video.currentTime = frameTime;
+          drawFrame();
+        }, 100);
+        requestAnimationFrame(function() {
+          console.log("🚀 ~ video.addEventListener ~ loadedmetadata:", 2)
+          // video.pause();
+          video.currentTime = frameTime;
+          drawFrame();
+        });
+      });
+
+      // const img = new Image();
+      // img.src = './img/1.png';
+      // img.onload = function() {
+      //   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      // };
     }
   </script>
 </body>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动态手电筒</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(https://pic2.zhimg.com/v2-4d0f3e43e75bb67646215e259fc2e9ad_r.jpg) no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    canvas {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 999;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas></canvas>
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const position = {
+      x: 0,
+      y: 0,
+      r: 50
+    };
+
+    // 获取缩放倍率
+    const getPixelRatio = (context) => {
+      return window.devicePixelRatio || 1;
+    };
+
+    const ratio = getPixelRatio();
+
+    // 保存原来的宽高
+    const oldWidth = window.innerWidth;
+    const oldHeight = window.innerHeight;
+
+    // canvas画布进行放大
+    // 物理像素（肉眼实际看见的像素） = 逻辑像素（css中写的px） × 设备像素比 (DPR)
+    canvas.width = oldWidth * ratio;
+    canvas.height = oldHeight * ratio;
+
+    // 在css里将宽高设置为原来的大小
+    canvas.style.width = oldWidth + "px";
+    canvas.style.height = oldHeight + "px";
+
+    // 考虑到内容的缩放，将ctx缩放
+    ctx.scale(ratio, ratio);
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      var radial = ctx.createRadialGradient(position.x, position.y, position.r, position.x, position.y, position.r * 3);
+      radial.addColorStop(0, 'rgba(255,255,255,0)');
+      radial.addColorStop(1, 'rgba(0,0,0,0.9)');
+      ctx.fillStyle = radial;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.closePath();
+    }
+
+    document.onmousemove = e => {
+      position.x = e.clientX;
+      position.y = e.clientY;
+      render();
+    }
+
+    window.onload = function () {
+      render();
+      const data = [
+        { id: 1, name: 'Alice', age: 25 },
+        { id: 2, name: 'Bob', age: 30 },
+        { id: 3, name: 'Charlie', age: 35 }
+      ];
+      console.table(data);
+    }
+  </script>
+</body>
+
+</html>
