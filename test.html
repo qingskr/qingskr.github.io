@@ -39,6 +39,16 @@
       margin-top: -10px;
       background-color: rgba(255, 255, 255, 0.3);
     }
+
+    .list-item {
+      opacity: 0;
+      transform: translate(20px, 5px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .list-item.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
   </style>
 </head>
 <body>
@@ -46,5 +56,25 @@
     <button>按钮1</button>
     <button>按钮2</button>
   </div>
+
+  <ul id="myList">
+    <li class="list-item">Item 1</li>
+    <li class="list-item">Item 2</li>
+    <li class="list-item">Item 3</li>
+    <li class="list-item">Item 4</li>
+  </ul>
+
+  <script>
+  function animateListItems() {
+    const listItems = document.querySelectorAll('#myList .list-item');
+    listItems.forEach((item, index) => {
+      setTimeout(() => {
+        item.classList.add('visible');
+      }, 300 * index); // 每个项目延迟300毫秒
+    });
+  }
+
+  animateListItems();
+  </script>
 </body>
 </html>
