@@ -84,7 +84,8 @@ for (var i = 0; i < maxStars; i++) {
   new Star();
 }
 
-const startDate = new Date('2025/01/01 00:00:00').getTime();
+const nextYear = new Date().getFullYear() + 1;
+const startDate = new Date(`${nextYear}/01/01 00:00:00`).getTime();
 const countdownDays = document.querySelector('.countdown__days .number');
 const countdownHours = document.querySelector('.countdown__hours .number');
 const countdownMinutes = document.querySelector('.countdown__minutes .number');
